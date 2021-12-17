@@ -18,6 +18,8 @@ using System.Windows.Shapes;
 using System.IO;
 using Newtonsoft.Json;
 using MyTestWPF.View;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace MyTestWPF
 {
@@ -29,18 +31,20 @@ namespace MyTestWPF
         static HttpClient client = new HttpClient();
 
         public ObservableCollection<Post> posts = new ObservableCollection<Post>() { };
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Post post = JsonConvert.DeserializeObject<Post>(GetUsers("https://jsonplaceholder.typicode.com/posts/3"));
+
+            Post post = JsonConvert.DeserializeObject<Post>(GetPosts("https://jsonplaceholder.typicode.com/posts/3"));
             posts.Add(post);
-            Post post2 = JsonConvert.DeserializeObject<Post>(GetUsers("https://jsonplaceholder.typicode.com/posts/4"));
+            Post post2 = JsonConvert.DeserializeObject<Post>(GetPosts("https://jsonplaceholder.typicode.com/posts/4"));
             posts.Add(post2);
             postsList.ItemsSource = posts;
 
         }
-        string GetUsers(string address)
+        string GetPosts(string address)
         {
             string responseText;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
@@ -68,6 +72,7 @@ namespace MyTestWPF
 
         private void Delete_Post(object sender, RoutedEventArgs e)
         {
+           // Post oldPost = e.OldItems[0] as Post;
             //Button btn = (Button)sender;
             //int index = int.Parse(btn.Tag.ToString());
 
